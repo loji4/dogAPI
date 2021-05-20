@@ -11,10 +11,20 @@
     <p>Search a specific dog breed to view its image </p>
     <input type="text" class = 'input'>
     <button class='btn'>Find breed</button>
-    <img src="" alt="" class='img'>
+    <img src="" width='300' height="300" alt="" class='img'>
     <script>
       
+document.querySelector('.btn').addEventListener('click',btnFunc); 
 
+function btnFunc (e) {
+  let inputval = document.querySelector('.input').value
+  fetch (`https://api.thedogapi.com/v1/breeds/search?q=${inputval}`)
+  .then((results) => results.json())
+  .then((data) => fetch(`https://api.thedogapi.com/v1/images/${data[0].reference_image_id}`))
+  .then((results) => results.json())
+  .then((data) => document.querySelector('.img').src=data.url)
+};
+btnFunc()
     </script>
 </body>
 </html>
